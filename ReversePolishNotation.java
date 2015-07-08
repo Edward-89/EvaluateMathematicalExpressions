@@ -11,8 +11,10 @@ public class ReversePolishNotation {
 		System.out.println("Please, input simple mathematical expression");
 		Scanner scan = new Scanner(System.in);
 		input = scan.nextLine();
+		scan.close();
 //		input = "(21-9)*2-1";
 //		input = "30-15/(9-6)";
+		isCorrectExpression(input);
 		ArrayList<String> arrayInput = toSeparateArrayStrings(input);
 		ArrayList<String> arrayOutput = toPolishNotation(arrayInput);
 		double result = evaluatePolishNotation(arrayOutput);
@@ -58,8 +60,11 @@ public class ReversePolishNotation {
 			}
 			
 		}
-		
-		return Double.valueOf(stack.pop());
+		if(stack.size() == 1){
+			return Double.valueOf(stack.pop());
+		} else {
+			throw new OperatorSymbolException();
+		}
 	}
 	
 	
@@ -170,6 +175,15 @@ public class ReversePolishNotation {
 		startIndex = 0;
 		return arrayInput;
 		
+	}
+	
+	/*
+	 * is Correct expression?
+	 */
+	public static void isCorrectExpression(String input) throws OperatorSymbolException{
+		char[] ch = input.toCharArray();
+		for (char c : ch)
+			if(!isDigit(c)) getPriority(String.valueOf(c));
 	}
 
 }
